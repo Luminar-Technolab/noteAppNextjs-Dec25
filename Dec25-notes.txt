@@ -1102,3 +1102,32 @@
         - SSG : Static Site Generation - Generated at build time
         - CSR : Client Side Rendering - Rendered on browser
     17. SEO in Next.js : use metadata object which can add title and description of each page
+
+    next-auth / Auth.js Package
+    ----------------------------
+
+    1. next-auth is an authentication library used in Next.js applications to handle: Login / Signup, Social authentication, JWT & session management, Route protection, OAuth providers, Credentials-based authentication
+    2. Installation : npm install next-auth
+    3. Main Features :
+        - Authentication Providers : Google, GitHub,Facebook,Credentials Login etc.
+        - Basic Folder Structure (App Router)
+            app
+            └── api
+                └── auth
+                    └── [...nextauth]
+                            └── route.ts
+    4. next-auth Working
+        - user click login btn using email/password form
+        - Requst goes to 'authentication provider' of next-auth
+        - Authentication provider used to verify user. 
+        - If authentication provider return true then Sesion/JWT is created
+        - Session should be stored in client part depending on strategy. JWT stored in browser cookie, db session in db. To view the session use http://localhost:3000/api/auth/session
+        - Access user data anywhere using hooks/function
+
+        Frontend UI --> signIn() --> nextAuth API Route --> Provider Authentication --> Session/JWT created --> Protected Page Access
+    5. Important Functions
+        - signIn() : login
+        - signOut() : logout
+        - useSession() : client component can access session
+        - getServerSession() : server component can access session
+        - SessionProvider : Global auth state

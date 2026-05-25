@@ -1,16 +1,26 @@
+"use client"
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { FaClock, FaEdit, FaTrash } from "react-icons/fa";
 import { FaNoteSticky, FaPowerOff, FaUser } from "react-icons/fa6";
 
-export default function Dashboard(){
+export default  function Dashboard(){
+    
+    const {data:session} = useSession()
+    // console.log(session);
+    
+    if(!session){
+        redirect('/login')
+    }
     return (
         <div className="md:mx-40 m-5">
             {/* header */}
             <div className="mb-10 flex justify-between items-center">
                 <div className="text-xl flex items-center text-blue-300"><FaNoteSticky/> <span className="ms-2">Miniso</span></div>
                 <div className="text-xl flex items-center text-blue-300">
-                    <p className="me-5 flex items-center"><FaUser className="me-1"/> username</p>
-                    <FaPowerOff/>
+                    <p className="me-5 flex items-center"><FaUser className="me-1"/> {session?.user?.name}</p>
+                    <FaPowerOff />
                 </div>
             </div>
             <div className=" rounded p-5 bg-gray-100">

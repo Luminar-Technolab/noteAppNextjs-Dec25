@@ -14,10 +14,10 @@ export default function UpdateNote(){
                 <div className="flex my-7">
                     <h3 className="text-sm text-gray-300"> Theme</h3>
                      <div className="flex justify-evenly items-center w-full">
-                        <div  className="p-2 bg-yellow-300 w-5 h-5 rounded-full"></div>
-                        <div  className="p-2 bg-red-300 w-5 h-5 rounded-full"></div>
-                        <div  className="p-2 bg-green-300 w-5 h-5 rounded-full"></div>
-                        <div  className="p-2 bg-blue-300 w-5 h-5 rounded-full"></div>
+                        <div  className="p-2 bg-yellow-300 w-5 h-5 rounded-full cursor-pointer"></div>
+                        <div  className="p-2 bg-red-300 w-5 h-5 rounded-full cursor-pointer"></div>
+                        <div  className="p-2 bg-green-300 w-5 h-5 rounded-full cursor-pointer"></div>
+                        <div  className="p-2 bg-blue-300 w-5 h-5 rounded-full cursor-pointer"></div>
                     </div>
                  </div> 
                 <div className="mt-5 mb-3 w-full">

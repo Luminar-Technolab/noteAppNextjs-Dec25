@@ -7,12 +7,14 @@ import { FaNoteSticky, FaPowerOff, FaUser } from "react-icons/fa6";
 
 export default  function Dashboard(){
     
-    const {data:session} = useSession()
+    const {data:session,status} = useSession()
     // console.log(session);
+    // console.log(status);
     
-    if(!session){
-        redirect('/login')
-    }
+    
+    if(status=="unauthenticated"){
+            redirect('/login')
+        }
     return (
         <div className="md:mx-40 m-5">
             {/* header */}
@@ -20,13 +22,13 @@ export default  function Dashboard(){
                 <div className="text-xl flex items-center text-blue-300"><FaNoteSticky/> <span className="ms-2">Miniso</span></div>
                 <div className="text-xl flex items-center text-blue-300">
                     <p className="me-5 flex items-center"><FaUser className="me-1"/> {session?.user?.name}</p>
-                    <FaPowerOff />
+                    <FaPowerOff onClick={()=>signOut()}/>
                 </div>
             </div>
             <div className=" rounded p-5 bg-gray-100">
                 <h1 className="text-4xl text-blue-600">My Notes</h1>
                 <div className="md:grid mt-10 grid-cols-4 gap-5">
-                    <div className="bg-yellow-200 rounded-xl p-5">
+                    <div className="bg-yellow-200 rounded-xl p-5 mt-5 md:mt-0">
                         
                         <div className="flex items-center justify-between text-gray-600 mb-3">
                             <h1 className="text-xl ">title</h1>
@@ -39,7 +41,8 @@ export default  function Dashboard(){
                             <button ><FaTrash className="text-red-600"/> </button>
                         </div>
                     </div>
-                    <Link href={'/notes/add'} className="border border-dashed rounded-xl p-5 flex justify-center items-center flex-col">
+                    
+                    <Link href={'/notes/add'} className="border border-dashed rounded-xl p-5 flex justify-center items-center flex-col mt-5 md:mt-0">
                             <FaEdit/>
                             New Note
                     </Link>

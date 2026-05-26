@@ -2,19 +2,43 @@
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { useEffect, useState } from "react";
 import { FaClock, FaEdit, FaTrash } from "react-icons/fa";
 import { FaNoteSticky, FaPowerOff, FaUser } from "react-icons/fa6";
 
-export default  function Dashboard(){
+interface Note{
+    _id:string;
+    title:string;
+    description:string;
+    color:string;
+    userMail:string;
+    createdAt:string;
+}
+
+export default function Dashboard(){
     
     const {data:session,status} = useSession()
-    // console.log(session);
-    // console.log(status);
+    const [allNotes,setAllNotes] = useState<Note[]>([])
+
+    console.log(allNotes);
     
+    useEffect(()=>{
+        fetchAllNotes()
+    },[])
+
+    const fetchAllNotes = async ()=>{
+        const res = await fetch('/api/notes')
+        const serverResponse = await res.json()
+        setAllNotes(serverResponse)
+    }
+        
+    if(status=="loading"){
+        return <p className="text-center mt-10 text-2xl">Loading ....</p>
+    }
     
     if(status=="unauthenticated"){
-            redirect('/login')
-        }
+        redirect('/login')
+    }
     return (
         <div className="md:mx-40 m-5">
             {/* header */}
@@ -28,19 +52,23 @@ export default  function Dashboard(){
             <div className=" rounded p-5 bg-gray-100">
                 <h1 className="text-4xl text-blue-600">My Notes</h1>
                 <div className="md:grid mt-10 grid-cols-4 gap-5">
-                    <div className="bg-yellow-200 rounded-xl p-5 mt-5 md:mt-0">
-                        
-                        <div className="flex items-center justify-between text-gray-600 mb-3">
-                            <h1 className="text-xl ">title</h1>
-                            <Link href={`/notes/id`}><FaEdit/> </Link>
-                        </div>
-                        <hr className="text-gray-200 mb-3"/>
-                        <p>description</p>
-                        <div className="flex items-center justify-between text-gray-600 mt-3">
-                            <p className="text-gray-400 text-sm flex items-center"> <FaClock className="me-2"/> 23/5/26</p>
-                            <button ><FaTrash className="text-red-600"/> </button>
-                        </div>
-                    </div>
+                    {
+                        allNotes.length>0 &&
+                            allNotes?.map(note=>(
+                                <div key={note?._id} className="bg-yellow-200 rounded-xl p-5 mt-5 md:mt-0">
+                                    <div className="flex items-center justify-between text-gray-600 mb-3">
+                                        <h1 className="text-xl ">{note?.title}</h1>
+                                        <Link href={`/notes/${note?._id}`}><FaEdit/> </Link>
+                                    </div>
+                                    <hr className="text-gray-200 mb-3"/>
+                                    <p>{note?.description}</p>
+                                    <div className="flex items-center justify-between text-gray-600 mt-3">
+                                        <p className="text-gray-400 text-sm flex items-center"> <FaClock className="me-2"/> {note?.createdAt}</p>
+                                        <button ><FaTrash className="text-red-600"/> </button>
+                                    </div>
+                                </div>
+                            ))
+                    }
                     
                     <Link href={'/notes/add'} className="border border-dashed rounded-xl p-5 flex justify-center items-center flex-col mt-5 md:mt-0">
                             <FaEdit/>

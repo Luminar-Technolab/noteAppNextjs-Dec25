@@ -1,8 +1,20 @@
+"use client"
 import Link from "next/link";
 import { FaCheck } from "react-icons/fa";
 import { FaNoteSticky, FaXmark } from "react-icons/fa6";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export default function UpdateNote(){
+    const {status} = useSession()
+        
+    if(status=="loading"){
+        return <p className="text-center mt-10 text-2xl">Loading ....</p>
+    }
+    
+    if(status=="unauthenticated"){
+        redirect('/login')
+    }
     return (
         <div className="md:mx-40 m-5 ">
             <div className="mb-10 flex justify-between items-center">

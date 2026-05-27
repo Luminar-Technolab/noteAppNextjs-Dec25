@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
+
 export default function AddNote(){
     const {data:session,status} = useSession()
 

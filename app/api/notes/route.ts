@@ -16,10 +16,12 @@ export async function POST(req:NextRequest) {
 }
 
 //GET : get all notes controller
-export async function GET() {
+export async function GET(req:NextRequest) {
     try{
         await connectDB()
-        const allNotes = await notes.find()
+        const searchParams = req.nextUrl.searchParams
+        const email = searchParams.get("email")
+        const allNotes = await notes.find({userMail:email})
         return NextResponse.json(allNotes,{status:200})
     }catch(err){
         console.log(err);
